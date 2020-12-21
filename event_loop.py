@@ -1,5 +1,7 @@
 import time
 import asyncio
+import argparse
+
 from scrape import check_tweets
 
 
@@ -13,11 +15,17 @@ if __name__ == '__main__':
     # asyncio.run(main())
     # loop.run_forever()
     # loop.close()
+    
+    parser = argparse.ArgumentParser(description='The handle for the Twitter account')
+    parser.add_argument('Handle', type=str)
+    args = parser.parse_args()
+    handle = args.Handle
+    
     n = 0
     while True:
         """ Poll Twitter every 10mins for new tweets on an account. """
         n += 1  # Keep a counter so it doesn't actually run forever.
-        check_tweets(tweets)  # Call fn to get latest tweets.
+        check_tweets(handle, tweets)  # Call fn to get latest tweets.
         time.sleep(10 * 60)  # Wait 10mins
         if n > 6 * 24:
             break  # Quit after 24hrs

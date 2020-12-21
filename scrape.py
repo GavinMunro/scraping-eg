@@ -17,10 +17,12 @@ load_dotenv(dotenv_path=str(env_path))
 chromedriver_path = os.getenv("CHROMEDRIVER_PATH")
 
 
-def grab_html(url="https://twitter.com/BorisJohnson"):
-    """ Use webdriver with Chrome as the browser/driver to grab the HTML
-    rendered by React and parse that with html5lib to get soup object.
+def twitter_page(handle="BorisJohnson"):
+    """ Use webdriver with Chrome as the browser/driver to grab the HTML page
+    rendered by React on Twitter and parse that with html5lib to get Beautiful Soup.
     """
+    base_url = "https://twitter.com"
+    url = base_url + "/" + handle
     browser = webdriver.Chrome(executable_path=chromedriver_path)
     browser.get(url)
     time.sleep(3)  # wait = WebDriverWait(driver, 5)
@@ -30,9 +32,9 @@ def grab_html(url="https://twitter.com/BorisJohnson"):
     return soup
 
 
-def check_tweets(tweets):
+def check_tweets(handle, tweets):
     """ Extract the text of the last 5 tweets in the Beautiful Soup object. """
-    parsed_html = grab_html()
+    parsed_html = twitter_page(handle)
     html_els = parsed_html.find_all(lang="en")
     # Currently Twitter seems to use a lang=?? attribute only in the parent div of the tweet text.
     if not tweets:
