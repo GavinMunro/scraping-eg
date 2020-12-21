@@ -1,0 +1,52 @@
+# JetBrains PyCharm IDE settings and config ####
+.idea/
+
+# Ignore virtual environment files(held within project)
+.venv
+env/
+venv/
+
+# #### Standard Python ignorables #####################
+# OS X
+.DS_Store*
+Icon?
+._*
+
+# Python Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# PYthon distribution/packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Sphinx documentation
+docs/_build/
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
