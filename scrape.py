@@ -30,13 +30,16 @@ def grab_html(url="https://twitter.com/BorisJohnson"):
     return soup
 
 
-if __name__ == '__main__':
+def check_tweets(tweets):
+    """ Extract the text of the last 5 tweets in the Beautiful Soup object. """
     parsed_html = grab_html()
     html_els = parsed_html.find_all(lang="en")
     # Currently Twitter seems to use a lang=?? attribute only in the parent div of the tweet text.
-    tweets = []
+    if not tweets:
+        tweets = []
     for el in html_els:
         tweet_text = el.string
         if tweet_text:  # Only the first 5 HTML elements found have a string but that's all we need.
-            tweets.append(tweet_text)
-    print(tweets)
+            if tweet_text not in tweets:
+                print(tweet_text)
+                tweets.append(tweet_text)
