@@ -1,13 +1,16 @@
 # JetBrains PyCharm IDE settings and config ####
 .idea/
 
-# Dotenv file for PATH, keys etc.
-.env
-
-# Ignore virtual environment files(held within project)
+# Ignore virtual environments in project dir.
 .venv
 env/
 venv/
+
+# Dotenv file for PATH, keys etc.
+.env
+
+temp.html
+notes.txt
 
 # #### Standard Python ignorables #####################
 # OS X
