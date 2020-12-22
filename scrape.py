@@ -45,3 +45,4 @@ def check_tweets(handle, tweets):
             if tweet_text not in tweets:
                 print(tweet_text)
                 tweets.append(tweet_text)
+    return tweets
