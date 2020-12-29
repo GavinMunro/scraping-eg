@@ -61,7 +61,7 @@ def index():
     <center>
     <h2>Tweets By Author</h2>
         <ul>
-            <li><a href="/person">Twitter Author</a></li>
+            <li><a href="/author">Twitter Author</a></li>
             <br/>
             <li><a href="/tweets">GET Tweets</a></li>
         </ul>
@@ -72,6 +72,11 @@ def index():
 
 
 handle = 'BorisJohnson'  # ToDo: Create a from for input of this.
+
+
+@app.route("/author")
+def author():
+    return handle
 
 
 @app.route("/tweets")
