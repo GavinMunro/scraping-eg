@@ -23,7 +23,15 @@ def twitter_page(handle="BorisJohnson"):
     """
     base_url = "https://twitter.com"
     url = base_url + "/" + handle
-    browser = webdriver.Chrome(executable_path=chromedriver_path)
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-setuid-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-using")
+    chrome_options.add_argument("--disable-extensions")
+    chrome_options.add_argument("--disable-gpu")
+    browser = webdriver.Chrome(executable_path=chromedriver_path, chrome_options=chrome_options)
+    
     browser.get(url)
     time.sleep(3)  # wait = WebDriverWait(driver, 5)
     html = browser.page_source
