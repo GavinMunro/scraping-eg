@@ -17,6 +17,20 @@ RUN chmod +x ./boot.sh
 
 ENV FLASK_APP flask_app.py
 
+RUN apt update
+RUN apt install -y wget
+RUN apt install -y unzip
+
+# RUN apt install -y chromium
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN apt install -y ./google-chrome-stable_current_amd64.deb
+
+RUN wget https://chromedriver.storage.googleapis.com/87.0.4280.88/chromedriver_linux64.zip
+# RUN wget https://chromedriver.storage.googleapis.com/88.0.4324.27/chromedriver_linux64.zip
+RUN unzip -a chromedriver_linux64.zip
+ENV CHROMEDRIVER_PATH="/home/tweety/chromedriver"
+
+
 RUN chown -R tweety:tweety ./
 USER tweety
 
