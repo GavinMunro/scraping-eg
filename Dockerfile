@@ -26,3 +26,5 @@ EXPOSE 5000
 # tell the container to execute the start script
 ENTRYPOINT ./boot.sh  # Preferred basic exec entry point.
 # ENTRYPOINT ["/bin/bash", "/srv/start.sh"]
+
+# Run command: "docker run --name flask_app -d -p 8000:5000 -e FLASK_APP=flask_app flask_app:latest"
