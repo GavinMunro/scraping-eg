@@ -35,7 +35,7 @@ def twitter_page(handle="BorisJohnson"):
     browser.get(url)
     time.sleep(3)  # wait = WebDriverWait(driver, 5)
     html = browser.page_source
-    soup = BeautifulSoup(html, "html5lib")
+    soup = BeautifulSoup(html, "lxml")
     browser.close()
     return soup
 
