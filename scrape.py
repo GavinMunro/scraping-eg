@@ -33,7 +33,8 @@ def twitter_page(handle="BorisJohnson"):
     browser = webdriver.Chrome(executable_path=chromedriver_path, chrome_options=chrome_options)
     
     browser.get(url)
-    time.sleep(3)  # wait = WebDriverWait(driver, 5)
+    browser.execute_script("window.scrollTo(0, document.body.scrollHeight)")  # To get last 5 tweets, need to scroll
+    time.sleep(5)  # wait = WebDriverWait(driver, 5)
     html = browser.page_source
     soup = BeautifulSoup(html, "lxml")
     browser.close()
@@ -43,14 +44,22 @@ def twitter_page(handle="BorisJohnson"):
 def check_tweets(handle, tweets):
     """ Extract the text of the last 5 tweets in the Beautiful Soup object. """
     parsed_html = twitter_page(handle)
-    html_els = parsed_html.find_all(lang="en", recursive=True, limit=5)
+
+    html_els = parsed_html.find_all(lang="en")
     # Currently Twitter seems to use a lang=?? attribute only in the parent div of the tweet text.
     if not tweets:
         tweets = []
-    for el in html_els:
-        tweet_text = el.text
-        if tweet_text:  # Only the first 5 HTML elements but that's all we need.
-            if tweet_text not in tweets:
-                print(tweet_text)
+        for el in html_els:
+            tweet_text = el.string
+            if tweet_text:
                 tweets.append(tweet_text)
+        result = tweets[:5]  # Only the 5 most recent tweets.
+        print(result)
+    else:
+        for el in html_els:
+            tweet_text = el.string
+            if tweet_text:
+                if tweet_text not in tweets:
+                    print(tweet_text)
+                    tweets.append(tweet_text)
     return tweets

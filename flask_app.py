@@ -106,15 +106,16 @@ def tweets():
     else:
         tweet_list = []
     fresh_data = scrape.check_tweets(handle, tweet_list)
-    for t in fresh_data:
-        t = str(t)  # Some are of type "NavigableString"
-        if t not in tweet_list:
-            tweet_list.append(t)
-            # _ = query_db(
-            #     "INSERT INTO tweets (author, tweet) VALUES (?, ?);",
-            #     (handle, t)
-            # )
-    # tweet_list = [t["tweet"] for t in query_db('SELECT * FROM tweets;')]
+    if fresh_data:
+        for t in fresh_data:
+            t = str(t)  # Some are of type "NavigableString"
+            if t not in tweet_list:
+                tweet_list.append(t)
+                # _ = query_db(
+                #     "INSERT INTO tweets (author, tweet) VALUES (?, ?);",
+                #     (handle, t)
+                # )
+        # tweet_list = [t["tweet"] for t in query_db('SELECT * FROM tweets;')]
     if not tweet_list:
         return None
     json_data = '{' + \
