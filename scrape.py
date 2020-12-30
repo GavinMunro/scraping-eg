@@ -44,7 +44,6 @@ def twitter_page(handle="BorisJohnson"):
 def check_tweets(handle, tweets):
     """ Extract the text of the last 5 tweets in the Beautiful Soup object. """
     parsed_html = twitter_page(handle)
-
     html_els = parsed_html.find_all(lang="en")
     # Currently Twitter seems to use a lang=?? attribute only in the parent div of the tweet text.
     if not tweets:

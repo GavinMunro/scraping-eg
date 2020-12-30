@@ -42,3 +42,4 @@ ENTRYPOINT ./boot.sh  # Preferred basic exec entry point.
 # ENTRYPOINT ["/bin/bash", "/srv/start.sh"]
 
 # Run command: "docker run --name flask_app -d -p 8000:5000 -e FLASK_APP=flask_app flask_app:latest"
+# Curl command to access API running in container: curl http://127.0.0.1:8000/tweets
