@@ -1,6 +1,7 @@
 import os
 import time
 from pathlib import Path  # python3 only
+import json
 
 import sqlite3
 from dotenv import load_dotenv
@@ -79,23 +80,47 @@ def author():
     return handle
 
 
+current_folder = Path(__file__).absolute().parents[0]  # 0 is this file's folder.
+json_fp = current_folder / Path('tweets.json')
+if not json_fp.is_file():
+    with open(str(json_fp), 'w') as f:
+        f.write('{"Author": "", "Tweets": []}')
+        
+
+def write_json(tj):
+    with open(json_fp, 'w') as outf:
+        json.dump(tj, outf, indent=4)
+
+
+def read_json():
+    with open(json_fp, 'r') as inf:
+        tj = json.load(inf)
+        return tj
+    
+
 @app.route("/tweets")
 def tweets():
-    tweet_list = [t["tweet"] for t in query_db('SELECT * FROM tweets;')]
+    json_data = json.loads(read_json())
+    if json_data["Tweets"]:
+        tweet_list = json_data["Tweets"]  # [t["tweet"] for t in query_db('SELECT * FROM tweets;')]
+    else:
+        tweet_list = []
     fresh_data = scrape.check_tweets(handle, tweet_list)
     for t in fresh_data:
-        if str(t) not in tweet_list:
-            _ = query_db(
-                "INSERT INTO tweets (author, tweet) VALUES (?, ?);",
-                (handle, t)
-            )
-    time.sleep(2)
-    tweet_list = [t["tweet"] for t in query_db('SELECT * FROM tweets;')]
+        t = str(t)  # Some are of type "NavigableString"
+        if t not in tweet_list:
+            tweet_list.append(t)
+            # _ = query_db(
+            #     "INSERT INTO tweets (author, tweet) VALUES (?, ?);",
+            #     (handle, t)
+            # )
+    # tweet_list = [t["tweet"] for t in query_db('SELECT * FROM tweets;')]
     if not tweet_list:
         return None
     json_data = '{' + \
         '"Author": ' + '"' + handle + '",' + \
         '"Tweets": ' + '["' + tweet_list[0] + '"' + ''.join([', "' + str(t) + '"' for t in tweet_list[1:]]) + ']}'
+    write_json(json_data)
     return json_data
 
 

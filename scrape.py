@@ -19,7 +19,7 @@ chromedriver_path = os.getenv("CHROMEDRIVER_PATH")
 
 def twitter_page(handle="BorisJohnson"):
     """ Use webdriver with Chrome as the browser/driver to grab the HTML page
-    rendered by React on Twitter and parse that with html5lib to get Beautiful Soup.
+    rendered by React on Twitter and parse that to get Beautiful Soup object.
     """
     base_url = "https://twitter.com"
     url = base_url + "/" + handle
@@ -28,8 +28,8 @@ def twitter_page(handle="BorisJohnson"):
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-setuid-sandbox")
     chrome_options.add_argument("--disable-dev-shm-using")
-    chrome_options.add_argument("--disable-extensions")
-    chrome_options.add_argument("--disable-gpu")
+    # chrome_options.add_argument("--disable-extensions")
+    # chrome_options.add_argument("--disable-gpu")
     browser = webdriver.Chrome(executable_path=chromedriver_path, chrome_options=chrome_options)
     
     browser.get(url)
@@ -43,13 +43,13 @@ def twitter_page(handle="BorisJohnson"):
 def check_tweets(handle, tweets):
     """ Extract the text of the last 5 tweets in the Beautiful Soup object. """
     parsed_html = twitter_page(handle)
-    html_els = parsed_html.find_all(lang="en")
+    html_els = parsed_html.find_all(lang="en", recursive=True, limit=5)
     # Currently Twitter seems to use a lang=?? attribute only in the parent div of the tweet text.
     if not tweets:
         tweets = []
     for el in html_els:
-        tweet_text = el.string
-        if tweet_text:  # Only the first 5 HTML elements found have a string but that's all we need.
+        tweet_text = el.text
+        if tweet_text:  # Only the first 5 HTML elements but that's all we need.
             if tweet_text not in tweets:
                 print(tweet_text)
                 tweets.append(tweet_text)
